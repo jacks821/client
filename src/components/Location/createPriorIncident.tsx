@@ -1,30 +1,55 @@
 import React, {useState} from "react";
 import { useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
 import {
+    Box,
     Button,
     Input,
     FormLabel,
+    Select,
     useToast,
 } from "@chakra-ui/core";
+import "react-datepicker/dist/react-datepicker.css"
 
+const formatDate = (date) => {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
 const CreatePriorIncident = (props) => {
-    const {drizzle, drizzleState, locationId} = props;
-    const contract = drizzle.contracts.PriorIncidents;
-    const [value, setValue] = useState("");
+    const [, setValue] = useState("");
+    const [startDate, setStartDate] = useState(new Date());
     const handleChange = event => setValue(event.target.value);
-    const {handleSubmit, errors, register, formState} = useForm();
+    const {handleSubmit, register, errors, formState} = useForm();
     const toast = useToast();
     const onSubmit = (data) => {
-        console.log(data);
-        const date = data.date;
-        const fallType = data.fallType;
-        const attorneyName = data.attorneyName;
-        const stackId = contract.methods["createPriorIncident"].cacheSend(date, fallType, attorneyName, locationId, { from: drizzleState.accounts[0], gas: 5000000});
-        console.log(stackId);
+        let req = {
+            date: formatDate(startDate),
+            fall_type: data.fallType,
+            attorney_name: data.attorneyName,
+            location_id: props.locationId,
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req)
+        };
+        let response = fetch("/company/location/priorincident", requestOptions)
+            .then(response => console.log(response))
+            .then(data => console.log(data));
+        console.log(response);
         toast({
             title: "Prior Incident created",
-            description: `We created your Prior Incident for you`,
+            description: `We created this ${data.fallType} Prior Incident for you`,
             status: "success",
             isClosable: true,
         })
@@ -34,23 +59,21 @@ const CreatePriorIncident = (props) => {
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormLabel htmlFor="date">Date</FormLabel>
-                <Input 
-                    onChange={handleChange}
-                    placeholder="Enter Date" 
-                    type="text" 
-                    name="date"
-                    size="sm"
-                    ref={register}
-                />
+                <Box>
+                    <DatePicker selected={startDate} onChange={date=>setStartDate(date)}/>
+                </Box>
                 <FormLabel htmlFor="fallType">Incident Type</FormLabel>
-                <Input 
+                <Select 
                     onChange={handleChange}
                     placeholder="Slip or Trip?" 
-                    type="text" 
                     name="fallType"
                     size="sm"
-                    ref={register}
-                />
+                    ref={register({pattern: /[st][lr]ip{1}/})}
+                >
+                    <option value="slip">Slip</option>
+                    <option value="trip">Trip</option>
+                </Select>
+                {errors.fallType && <p>Choose Slip or Trip</p>}
                 <FormLabel htmlFor="attorneyName">Attorney Name</FormLabel>
                 <Input 
                     onChange={handleChange}
@@ -58,7 +81,7 @@ const CreatePriorIncident = (props) => {
                     type="text" 
                     name="attorneyName"
                     size="sm"
-                    ref={register}
+                    ref={register({required: 'Must enter an Attorney Name'})}
                 />
                 
                 <Button 
@@ -67,7 +90,7 @@ const CreatePriorIncident = (props) => {
                 >
                     Add An Incident to This Location
                 </Button>
-              </form>
+              </form >
               </div>
         </div>
     );

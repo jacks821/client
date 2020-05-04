@@ -1,49 +1,74 @@
 import React from "react";
+import {Box, Text} from "@chakra-ui/core";
 import {Link, withRouter} from "react-router-dom";
+import {Container} from "../utils/Container"
 
 interface ListCompaniesProps {
-    drizzle: any,
-    drizzleState: any,
     match: any,
 }
 
-class ListCompanies extends React.Component<ListCompaniesProps> {
-    state = { dataKey: "1"};
+interface ListCompaniesState {
+    error: any,
+    isLoaded: boolean,
+    companies: any,
+}
+
+class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesState> {
+    constructor(props) {
+        super(props);
+        this.state = {
+          error: null,
+          isLoaded: false,
+          companies: []
+        };
+      }
 
     componentDidMount() {
-        const drizzle = this.props.drizzle;
-        const contract = drizzle.contracts.PriorIncidents;
-
-        const dataKey = contract.methods["listAllCompanies"].cacheCall();
-        this.setState({dataKey})
+        fetch("/companies")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        companies: result
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error});
+                }
+            )
     }
     render() {
-        const {PriorIncidents} = this.props.drizzleState.contracts;
-        const listAllCompanies = PriorIncidents.listAllCompanies[this.state.dataKey];
-        if (listAllCompanies) {
-            const companies = listAllCompanies.value;
-            const companyList = companies.map((company, index) =>
-            <li key={index}>
-            <Link to={{
-                pathname: `/company/${index}`,
-                }
-            } id={index}>{company}</Link> {index}
-            </li>
-            );
+        let {error, isLoaded, companies} = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>
+        } else {
             return (
-                <div>
-                    <div>
-                      <h1> List the Companies </h1>
-                        <ul>
-                            {companyList}
-                        </ul>
-                      </div>
-                </div>
-            )
+                <Box>
+                    <Box color="#142850">
+                        <Container>
+                            <Box maxW="xl" mx="auto" textAlign="center">
+                                <div>
+                                    {companies.map(company => (
+                                        <Text fontSize="lg" key={company.id}>
+                                            <Link to={{
+                                        pathname: `/company/${company.id}`,
+                                        }
+                                    } id={company.id}>{company.name}</Link>
+                                        </Text>
+                                    ))}
+                                </div>
+                            </Box>
+                        </Container>
+                    </Box>
+                </Box>
+            );
         }
-        return (
-            <p>Could Not Get Companies</p>
-        )
+
     }
 }
 

@@ -1,37 +1,55 @@
 import React from "react";
 
 interface PriorIncidentCompanyProps {
-    drizzle: any,
-    drizzleState: any,
-    priorIncidentId: any,
+    locationId: any,
 }
 interface PriorIncidentCompanyState {
-    dataKey: any,
+    error: any,
+    isLoaded: boolean,
+    company: any,
 }
 
 class PriorIncidentCompany extends React.Component<PriorIncidentCompanyProps, PriorIncidentCompanyState> {
-    state = { dataKey: "None"};
 
-    componentDidMount() {
-        const drizzle = this.props.drizzle;
-        const contract = drizzle.contracts.PriorIncidents;
-        const id = this.props.priorIncidentId;
-        const dataKey = contract.methods["getCompanyByPriorIncident"].cacheCall(id);
-        this.setState({dataKey});
+    constructor(props) {
+        super(props);
+        this.state = {
+          error: null,
+          isLoaded: false,
+          company: null
+        };
+      }
+
+      componentDidMount() {
+        let id = this.props.locationId;
+        console.log(id);
+        fetch(`/company/location=${id}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        company: result
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error});
+                }
+            )
     }
-
     render() {
-        const {PriorIncidents} = this.props.drizzleState.contracts;
-        const company = PriorIncidents.getCompanyByPriorIncident[this.state.dataKey];
-        if (company) {
-            console.log(company);
+        let {error, isLoaded, company} = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>
+        } else {
             return (
-                <h2>{company.value}</h2>
+                <h2>{company.name}</h2>
             )
         }
-        return (
-            <li>Could not get Company Information for this Prior</li>
-        )
     }
 }
 

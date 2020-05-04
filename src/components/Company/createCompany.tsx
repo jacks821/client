@@ -2,56 +2,60 @@ import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {
     Button,
-    Box,
     Input,
     FormLabel,
     useToast,
 } from "@chakra-ui/core";
+import {Container} from "../utils/Container"
 
 const CreateCompany = (props) => {
-    const {drizzle, drizzleState} = props;
-    const contract = drizzle.contracts.PriorIncidents;
-    const [value, setValue] = useState("");
-    const handleChange = event => setValue(event.target.value);
-    const {handleSubmit, errors, register, formState} = useForm();
+    const [name, setName] = useState("");
+    const handleChange = event => setName(event.target.value);
+    const {handleSubmit, register, errors, formState} = useForm();
     const toast = useToast();
 
     function onSubmit() {
-        console.log(value);
-      const stackId = contract.methods["createCompany"].cacheSend(value, {
-          from: drizzleState.accounts[0]
-      });
-      console.log(stackId);
+        let req = {name: name};
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req)
+        };
+        let response = fetch("/company", requestOptions)
+            .then(response => console.log(response))
+            .then(data => console.log(data));
+        console.log(response);
       toast({
           title: "Company created",
-          description: `We created company ${value} for you`,
+          description: `We created company ${name} for you`,
           status: "success",
           isClosable: true,
       })
     }
 
-    return (
-        <Box textAlign="center"
-            height={"50vh"}
-            width={"50vw"}>
 
-              <form onSubmit={handleSubmit(onSubmit)} style={{display: "inline-block", margin: "auto",}}>
-                <FormLabel htmlFor="name">Company Name</FormLabel>
-                <Input
-                    left={0}
-                    width={"50vw"}
-                    position={"absolute"}
-                    top="50%"
-                />
-                <Button 
-                    position={"absolute"}
-                    isLoading={formState.isSubmitting}
-                    type="submit"
-                >
-                    Add Company
-                </Button>
-              </form>
-        </Box>
+    return (
+        <Container>
+                
+                  <form onSubmit={handleSubmit(onSubmit)} style={{margin: "auto",}}>
+                    <FormLabel htmlFor="name">Company Name</FormLabel>
+                    <Input onChange={handleChange} 
+                        placeholder="Company Name" 
+                        type="text" 
+                        name="name"
+                        size="sm"
+                        ref={register({required: true})}
+                    />
+                    {errors.name && <p>Must provide a name</p>}
+                    <Button 
+                        position={"absolute"}
+                        isLoading={formState.isSubmitting}
+                        type="submit"
+                    >
+                        Add Company
+                    </Button>
+                  </form>
+        </Container>
             
     );
 }

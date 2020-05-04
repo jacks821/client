@@ -1,36 +1,52 @@
 import React from "react";
 
 interface PriorIncidentLocationProps {
-    drizzle: any,
-    drizzleState: any,
-    priorIncidentId: any,
+    locationId: any,
 }
 interface PriorIncidentLocationState {
-    dataKey: any,
+    error: any,
+    isLoaded: boolean,
+    location: any,
 }
 
 class PriorIncidentLocation extends React.Component<PriorIncidentLocationProps, PriorIncidentLocationState> {
-    state = { dataKey: "None"};
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          error: null,
+          isLoaded: false,
+          location: null
+        };
+      }
 
     componentDidMount() {
-        const drizzle = this.props.drizzle;
-        const contract = drizzle.contracts.PriorIncidents;
-        const id = this.props.priorIncidentId;
-        const dataKey = contract.methods["getLocationByPriorIncident"].cacheCall(id);
-        this.setState({dataKey});
-    }
-
-    render() {
-        const {PriorIncidents} = this.props.drizzleState.contracts;
-        const location = PriorIncidents.getLocationByPriorIncident[this.state.dataKey];
-        if (location) {
-            return (
-                <h3>{location.value.storeNumber}</h3>
+        const locationId = this.props.locationId;
+        fetch(`/companies/location/${locationId}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        location: result
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error});
+                }
             )
+    }
+    render() {
+        let {error, isLoaded, location} = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>
+        } else {
+            return <h3>{location.store_number}</h3>;
         }
-        return (
-            <li>Could not get Location Information for this Prior</li>
-        )
     }
 }
 

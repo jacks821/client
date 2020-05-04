@@ -1,24 +1,47 @@
-import React from "react";
-import {Box, Text} from "@chakra-ui/core";
-import {Provider, Heading, Subhead, Hero} from "react-landing-page";
+import React from "react"
+import {DiGithubBadge} from "react-icons/di";
+import {Link} from "react-router-dom";
+import {
+  Box,
+  Button,
+  Heading,
+  Text,
+} from "@chakra-ui/core";
+import {Container} from "../utils/Container"
+
 
 const Home = () => {
-
-    return (
-        <Box>
-                <Text
-                    left={0}
-                    line-height={"200px"}
-                    marginTop={'-100px'}
-                    position={"absolute"}
-                    textAlign={"center"}
-                    top="50%"
-                    width={"100%"}
-                >
-                    Home
-                </Text>
+  return (
+    <Box as="section" pt={40} pb={24} color="#142850">
+      <Container h="300px">
+        <Box maxW="xl" mx="auto" textAlign="center">
+            <Heading as="h1" size="xl" fontWeight="semibold" letterSpacing={"-.1rem"}>PriorIncidents</Heading>
+            <Text opacity={0.7} fontSize="xl" color="#142850" mt="6">Share Your Prior Incidents For <Box as="span" color="#00909E">Everyone To Find</Box></Text>   
+            <Box mt="4">
+              <Link to={{
+                          pathname: `/listCompanies`,
+                        }
+                    }>
+                <Button as="button" size="lg" m={2}>
+                  Start Here
+                </Button>
+              </Link>
+              <Link>
+              <Button
+                as="a"
+                size="lg"
+                backgroundColor=""
+                m={2}
+                leftIcon={props => <DiGithubBadge size="1.5em" {...props} />}
+              >
+                GitHub
+              </Button>
+              </Link>
+            </Box>
         </Box>
-    )
-}
+      </Container>
+    </Box>
+  );
+};
 
 export default Home
