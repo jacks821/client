@@ -1,22 +1,29 @@
 import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import {
-    Button,
     Box,
-    Input,
+    Button,
     FormLabel,
+    Icon,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
     Select,
-    useToast,
+    Text,
+    useDisclosure,
+    useToast
 } from "@chakra-ui/core";
-
-interface CreateLocationProps {
-    id: any,
-}
 
 const states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
 
 
-const CreateLocation = (props) => {
+export const AddLocationModal = (props) => {
+    const {isOpen, onOpen, onClose} = useDisclosure();
     const [, setValue] = useState("");
     const toast = useToast();
     const handleChange = event => setValue(event.target.value);
@@ -46,10 +53,20 @@ const CreateLocation = (props) => {
             status: "success",
             isClosable: true,
         })
+        onClose();
     };
     return (
-        <Box maxW="xl" mx="auto" textAlign="center">
-              <form onSubmit={handleSubmit(onSubmit)}>
+    <Box>
+        <Button onClick={onOpen} my={"5px"} display={"inline"}>Add a Location</Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>
+                    Add A New Location
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <FormLabel htmlFor="streetNumber">Street Number</FormLabel>
                 <Input 
                     onChange={handleChange}
@@ -58,6 +75,7 @@ const CreateLocation = (props) => {
                     name="streetNumber"
                     size="sm"
                     ref={register({required: true})}
+                    px={"5px"}
                 />
                 <FormLabel htmlFor="street">Street Name</FormLabel>
                 <Input 
@@ -67,6 +85,7 @@ const CreateLocation = (props) => {
                     name="street"
                     size="sm"
                     ref={register({required: true})}
+                    px={"5px"}
                 />
                 <FormLabel htmlFor="city">City</FormLabel>
                 <Input 
@@ -76,6 +95,7 @@ const CreateLocation = (props) => {
                     name="city"
                     size="sm"
                     ref={register({required: true})}
+                    px={"5px"}
                 />
                 <FormLabel htmlFor="state">State</FormLabel>
                 <Select 
@@ -84,12 +104,13 @@ const CreateLocation = (props) => {
                     name="state"
                     size="sm"
                     ref={register({required: true, validate: value => states.includes(value)})}
+                    px={"5px"}
                 >
                     {states.map(state =>
                         <option value={state}>{state}</option>
                     )}
                 </Select>
-                {errors.state && <p>Choose a State</p>}
+                {errors.state && <Box py={"2px"}><Icon name="warning" size="12px" color="red.500" display={"inline"} /><Text display={"inline"}>Choose a State</Text></Box>}
                 <FormLabel htmlFor="zipCode">Zip Code</FormLabel>
                 <Input 
                     onChange={handleChange}
@@ -98,8 +119,9 @@ const CreateLocation = (props) => {
                     name="zipCode"
                     size="sm"
                     ref={register({required: true, pattern: {value: /[0-9]{5}/, message: "Must have 5 Numerical Digits"}})}
+                    px={"5px"}
                 />
-                {errors.zipCode && <p>Need 5 Numeric Digits</p>}
+                {errors.zipCode && <Box py={"2px"}><Icon name="warning" size="12px" color="red.500" display={"inline"} /><Text display={"inline"}>Need 5 Numeric Digits</Text></Box>}
                 <FormLabel htmlFor="storeNumber">Store Number</FormLabel>
                 <Input 
                     onChange={handleChange}
@@ -108,17 +130,24 @@ const CreateLocation = (props) => {
                     name="storeNumber"
                     size="sm"
                     ref={register({required: true})}
+                    px={"5px"}
                 />
                 <Button 
                     isLoading={formState.isSubmitting}
                     type="submit"
-                    mt={"10px"}
+                    my={"10px"}
                 >
                     Add Location
                 </Button>
               </form>
-        </Box>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variantColor="blue" mr={3} onClick={onClose}>
+                        Close
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    </Box>
     );
 }
-
-export default CreateLocation;

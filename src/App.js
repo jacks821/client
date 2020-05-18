@@ -9,19 +9,19 @@ import {Box} from "@chakra-ui/core";
 
 import Home from "./components/Home/home"
 import About from "./components/About/about";
-import CreateCompany from "./components/Company/createCompany";
 import ListCompanies from "./components/Company/listCompanies";
 import Company from "./components/Company/Company"
 import Header from "./components/utils/header";
 import Footer from "./components/utils/footer";
 import Location from "./components/Location/Location";
 import PriorIncident from "./components/PriorIncident/PriorIncident"
+import External from "./components/utils/External"
 
 
 const App = () => {
 
   return (
-    <Box>
+    <Box mb={20}>
     <Header siteTitle={"PriorIncidents"} />
             <Router>
             <Box 
@@ -30,18 +30,14 @@ const App = () => {
                 backgroundSize={'cover'}
                 color={'#142850'}
                 backgroundColor={'#FFFFFF'}
-                h={'100vh'}
-                w={'100vw'}
                 margin={0}
+                width={"100vw"}
                 padding={0}
-                position={'fixed'}
             >
                     <Switch>
+                        <Route path="/external" component={External}/>
                         <Route path="/about">
                             <About />
-                        </Route>
-                        <Route path="/addCompany">
-                            <CreateCompany />
                         </Route>
                         <Route path="/listCompanies">
                             <ListCompanies />

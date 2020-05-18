@@ -2,6 +2,7 @@ import React from "react";
 import {Box, Text} from "@chakra-ui/core";
 import {Link, withRouter} from "react-router-dom";
 import {Container} from "../utils/Container"
+import { AddCompanyModal } from "../utils/AddCompanyModal";
 
 interface ListCompaniesProps {
     match: any,
@@ -43,16 +44,16 @@ class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesSta
     render() {
         let {error, isLoaded, companies} = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <Box>Error: {error.message}</Box>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>
+            return <Box>Loading...</Box>
         } else {
             return (
                 <Box>
                     <Box color="#142850">
                         <Container>
                             <Box maxW="xl" mx="auto" textAlign="center">
-                                <div>
+                                <Box>
                                     {companies.map(company => (
                                         <Text fontSize="lg" key={company.id}>
                                             <Link to={{
@@ -61,7 +62,8 @@ class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesSta
                                     } id={company.id}>{company.name}</Link>
                                         </Text>
                                     ))}
-                                </div>
+                                    <AddCompanyModal/>
+                                </Box>
                             </Box>
                         </Container>
                     </Box>

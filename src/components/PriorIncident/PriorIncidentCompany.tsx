@@ -1,4 +1,5 @@
 import React from "react";
+import {Box} from "@chakra-ui/core"
 
 interface PriorIncidentCompanyProps {
     locationId: any,
@@ -22,7 +23,6 @@ class PriorIncidentCompany extends React.Component<PriorIncidentCompanyProps, Pr
 
       componentDidMount() {
         let id = this.props.locationId;
-        console.log(id);
         fetch(`/company/location=${id}`)
             .then(res => res.json())
             .then(
@@ -42,9 +42,9 @@ class PriorIncidentCompany extends React.Component<PriorIncidentCompanyProps, Pr
     render() {
         let {error, isLoaded, company} = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <Box>Error: {error.message}</Box>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>
+            return <Box>Loading...</Box>
         } else {
             return (
                 <h2>{company.name}</h2>

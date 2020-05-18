@@ -13,7 +13,7 @@ import {Container} from "../utils/Container"
 const Home = () => {
   return (
     <Box as="section" pt={40} pb={24} color="#142850">
-      <Container h="300px">
+      <Container>
         <Box maxW="xl" mx="auto" textAlign="center">
             <Heading as="h1" size="xl" fontWeight="semibold" letterSpacing={"-.1rem"}>PriorIncidents</Heading>
             <Text opacity={0.7} fontSize="xl" color="#142850" mt="6">Share Your Prior Incidents For <Box as="span" color="#00909E">Everyone To Find</Box></Text>   
@@ -26,7 +26,7 @@ const Home = () => {
                   Start Here
                 </Button>
               </Link>
-              <Link>
+              <Link to={{pathname: '/external', state: {url: "https://www.github.com/jacks821/client"}}}>
               <Button
                 as="a"
                 size="lg"

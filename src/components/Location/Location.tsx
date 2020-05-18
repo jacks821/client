@@ -3,18 +3,25 @@ import {
     Link,
     withRouter
 } from "react-router-dom";
-import CreatePriorIncident from "./createPriorIncident"
+import {
+    Box,
+    Text,
+} from "@chakra-ui/core";
+import moment from "moment"
+import {AddPriorIncidentModal} from "../utils/AddPriorIncidentModal"
 import {AddReportModal} from "../utils/AddReportModal"
 import {ReportsModal} from "../utils/ReportsModal";
 
 interface LocationProps {
     match: any,
+    location: any,
 }
 
 interface LocationState {
     error: any,
     isLoaded: boolean,
     location: any,
+    companyName: any,
 }
 
 
@@ -25,7 +32,8 @@ class Location extends React.Component<LocationProps, LocationState> {
         this.state = {
           error: null,
           isLoaded: false,
-          location: null
+          location: null,
+          companyName: this.props.location.state.companyName,
         };
       }
 
@@ -49,43 +57,50 @@ class Location extends React.Component<LocationProps, LocationState> {
     }
 
     render() {
-        let {error, isLoaded, location} = this.state;
+        let {error, isLoaded, location, companyName} = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <Box>Error: {error.message}</Box>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>
+            return <Box>Loading...</Box>
         } else {
             let priorIncidentItems;
             if (location.prior_incidents == null) {
-                priorIncidentItems = <h2>This Location has no Prior Incidents.  Add an Incident below</h2>
+                priorIncidentItems = <Text fontSize={"3xl"}>This Location has no Prior Incidents.  Add an Incident below</Text>
             } else {
                 priorIncidentItems = location.prior_incidents.map((pi, index) =>
-                    <p key={index}>
+                    <Text fontSize={"xl"} key={index}>
                         <Link to={{
                             pathname: `/priorincident/${pi.id}`,
                         }
                     } id={pi.id} key={pi.id}>
-                        {pi.fall_type}
+                        {moment(pi.date).format('M/D/YYYY')}
                         </Link>
-                    </p>
+                    </Text>
                 )
             }
 
         return (
-            <div>
-                <h1>{location.store_number}</h1>
-                <div>
-                    <h1> List Incidents </h1>
-                    <ul>
-                        {priorIncidentItems}
-                    </ul>
-                </div>
-                <div>
-                    <CreatePriorIncident locationId={location.id} />
-                </div>
-                <AddReportModal reportedId={location.id} reportType={"location"}/>
-                <ReportsModal reports={location.reports} />
-            </div>
+            <Box textAlign="center">
+                <Text fontSize="2xl">{companyName} Location Number: {location.store_number}</Text>
+                <Text fontSize="l">{location.street_number} {location.street} <br/> {location.city}, {location.state} {location.zip_code}</Text>
+
+                <Box>
+                    <Text fontSize="xl"> List Incidents </Text>
+                </Box>
+                <Box>
+                    {priorIncidentItems}
+                </Box>
+                <Box display={"inline"}>
+                    <AddPriorIncidentModal locationId={location.id} />
+                </Box>
+                <Box display={"inline"}>
+                    <AddReportModal reportedId={location.id} reportType={"location"}/>
+                </Box>
+                <Box display="inline">
+                    <ReportsModal reports={location.reports}/>
+                </Box>
+                
+            </Box>
         )};        
     }
  }

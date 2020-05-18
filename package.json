@@ -5,8 +5,6 @@
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@chakra-ui/core": "^0.7.0",
-    "@drizzle/react-plugin": "^1.5.1",
-    "@drizzle/store": "^1.5.1",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@testing-library/jest-dom": "^4.2.4",
@@ -16,6 +14,7 @@
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
     "emotion-theming": "^10.0.27",
+    "moment": "^2.25.3",
     "next-link": "^2.0.0",
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",

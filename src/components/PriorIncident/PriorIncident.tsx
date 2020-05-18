@@ -6,6 +6,7 @@ import PriorIncidentCompany from "./PriorIncidentCompany";
 import PriorIncidentLocation from "./PriorIncidentLocation";
 import {AddReportModal} from "../utils/AddReportModal"
 import {ReportsModal} from "../utils/ReportsModal";
+import {Box, Text} from "@chakra-ui/core"
 
 interface PriorIncidentProps {
     match: any,
@@ -49,21 +50,21 @@ export class PriorIncident extends React.Component<PriorIncidentProps, PriorInci
     render() {
         let {error, isLoaded, incident} = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <Box>Error: {error.message}</Box>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>
+            return <Box>Loading...</Box>
         } else {
         return (
-            <div>
-                <h1>The Prior Incident Component</h1>
+            <Box textAlign="center">
+                <Text fontSize="xl">The Prior Incident Component</Text>
                 <PriorIncidentCompany locationId={incident.location_id}/>
                 <PriorIncidentLocation locationId={incident.location_id}/>
-                <div>
-                    <h3>{incident.date}</h3>
-                </div>
+                <Box>
+                    <Text fontSize="l">{incident.date}</Text>
+                </Box>
                 <AddReportModal reportedId={incident.id} reportType={"prior"}/>
                 <ReportsModal reports={incident.reports} />
-            </div>
+            </Box>
         )
         }
     }

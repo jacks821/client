@@ -2,6 +2,7 @@ import React from "react";
 import {
     Box,
     Button,
+    List,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -27,18 +28,18 @@ export const ReportsModal = (props) => {
     }
     return (
         <Box>
-            <Button onClick={onOpen}>View Reports</Button>
+            <Button onClick={onOpen} my="3px" display={"inline-block"}>View Reports</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>
-                        Report this Prior Incident for Review
+                        Reports
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <ul>
+                        <List>
                             {reportList}
-                        </ul>
+                        </List>
                     </ModalBody>
                     <ModalFooter>
                         <Button variantColor="blue" mr={3} onClick={onClose}>

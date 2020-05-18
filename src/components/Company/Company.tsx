@@ -2,9 +2,9 @@ import React from "react";
 import {
     withRouter,
 } from "react-router-dom";
-import {Box} from "@chakra-ui/core"
-import CreateLocation from "./createLocation"
+import {Box, Text} from "@chakra-ui/core"
 import {LocationListItem} from "../utils/LocationList"
+import { AddLocationModal } from "../utils/AddLocationModal";
 
 interface CompanyProps {
     match: any,
@@ -49,14 +49,14 @@ class Company extends React.Component<CompanyProps, CompanyState> {
     render () {
         let {error, isLoaded, company} = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <Box>Error: {error.message}</Box>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>
+            return <Box>Loading...</Box>
         } else {
             let locationItems;
             let locationsByState = {};
             if (company.locations == null) {
-                locationItems = <h2>This Company has no Locations.  Add a location below</h2>
+                locationItems = <Text fontSize="xl">This Company has no Locations.  Add a location below</Text>
             } else {
                 company.locations.map(location => {
                     if (!locationsByState[location.state]) {
@@ -67,23 +67,23 @@ class Company extends React.Component<CompanyProps, CompanyState> {
                         return true
                     }
                 });
-                locationItems = Object.keys(locationsByState).map(key => 
-                    <LocationListItem state={key} locations={locationsByState[key]}/>
+                locationItems = Object.keys(locationsByState).sort().map(key =>
+                    <LocationListItem state={key} locations={locationsByState[key]} companyName={company.name}/>
 
                 )
             }
         return (
                 <Box maxW="xl" mx="auto" textAlign="center">
-                    <h1>{company.name}</h1>
-                    <div>
-                        <h1> Here are {company.name} Locations </h1>
-                        <ul>
+                    <Text fontSize="xl">{company.name}</Text>
+                    <Box>
+                        <Text fontSize="l"> Here are {company.name} Locations </Text>
+                        <Box>
                             {locationItems}
-                        </ul>
-                    </div>
-                    <div>
-                        <CreateLocation companyId={company.id} />
-                    </div>
+                        </Box>
+                    </Box>
+                    <Box>
+                        <AddLocationModal companyId={company.id} />
+                    </Box>
                 </Box>
             )
         }

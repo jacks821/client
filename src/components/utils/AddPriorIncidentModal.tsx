@@ -1,15 +1,25 @@
 import React, {useState} from "react";
 import { useForm } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import {
     Box,
     Button,
-    Input,
     FormLabel,
+    Icon,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
     Select,
-    useToast,
+    Text,
+    useDisclosure,
+    useToast
 } from "@chakra-ui/core";
 import "react-datepicker/dist/react-datepicker.css"
+import DatePicker from "react-datepicker";
 
 const formatDate = (date) => {
     var d = new Date(date),
@@ -25,7 +35,9 @@ const formatDate = (date) => {
     return [year, month, day].join('-');
 }
 
-const CreatePriorIncident = (props) => {
+
+export const AddPriorIncidentModal = (props) => {
+    const {isOpen, onOpen, onClose} = useDisclosure();
     const [, setValue] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const handleChange = event => setValue(event.target.value);
@@ -53,13 +65,22 @@ const CreatePriorIncident = (props) => {
             status: "success",
             isClosable: true,
         })
+        onClose();
     };
     return (
-        <div>
-            <div>
-              <form onSubmit={handleSubmit(onSubmit)}>
+    <Box>
+        <Button onClick={onOpen} my={"5px"} display="inline">Add an Incident</Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>
+                    Add An Incident
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <FormLabel htmlFor="date">Date</FormLabel>
-                <Box>
+                <Box px={"5px"}>
                     <DatePicker selected={startDate} onChange={date=>setStartDate(date)}/>
                 </Box>
                 <FormLabel htmlFor="fallType">Incident Type</FormLabel>
@@ -69,11 +90,12 @@ const CreatePriorIncident = (props) => {
                     name="fallType"
                     size="sm"
                     ref={register({pattern: /[st][lr]ip{1}/})}
+                    px={"5px"}
                 >
                     <option value="slip">Slip</option>
                     <option value="trip">Trip</option>
                 </Select>
-                {errors.fallType && <p>Choose Slip or Trip</p>}
+                {errors.fallType && <Box py={"2px"}><Icon name="warning" size="12px" color="red.500" display={"inline"} /><Text display={"inline"}>Choose a Fall Type</Text></Box>}
                 <FormLabel htmlFor="attorneyName">Attorney Name</FormLabel>
                 <Input 
                     onChange={handleChange}
@@ -82,18 +104,25 @@ const CreatePriorIncident = (props) => {
                     name="attorneyName"
                     size="sm"
                     ref={register({required: 'Must enter an Attorney Name'})}
+                    px={"5px"}
                 />
                 
                 <Button 
                     isLoading={formState.isSubmitting}
                     type="submit"
+                    mt={"10px"}
                 >
                     Add An Incident to This Location
                 </Button>
               </form >
-              </div>
-        </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variantColor="blue" mr={3} onClick={onClose}>
+                        Close
+                    </Button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    </Box>
     );
 }
-
-export default CreatePriorIncident;

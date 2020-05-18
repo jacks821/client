@@ -10,8 +10,9 @@ import {
 } from "@chakra-ui/core";
 import {Container} from "../utils/Container"
 
+
 const FooterLink = ({ icon, href }) => (
-    <Link display="inline-block" href={href} isExternal>
+    <Link display="inline-block" to={{pathname: '/external', state: {url: href}}}>
       <Box as={icon} size="6" color="gray.400" />
     </Link>
   );
