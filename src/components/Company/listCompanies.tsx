@@ -38,7 +38,7 @@ class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesSta
       }
 
     componentDidMount() {
-        fetch("https://glacial-meadow-19107.herokuapp.com/companies")
+        fetch(process.env.PUBLIC_ENDPOINT + "/companies")
             .then(res => res.json())
             .then(
                 (result) => {
