@@ -7,6 +7,7 @@ import PriorIncidentLocation from "./PriorIncidentLocation";
 import {AddReportModal} from "../utils/AddReportModal"
 import {ReportsModal} from "../utils/ReportsModal";
 import {Box, Text} from "@chakra-ui/core"
+import moment from "moment"
 
 interface PriorIncidentProps {
     match: any,
@@ -56,12 +57,10 @@ export class PriorIncident extends React.Component<PriorIncidentProps, PriorInci
         } else {
         return (
             <Box textAlign="center">
-                <Text fontSize="xl">The Prior Incident Component</Text>
+                <Text fontSize="2xl">{incident.fall_type} from {moment(incident.date).add(1, "day").format('M/D/YYYY')}</Text>
+                <Text fontSize="xl">The Attorney: {incident.attorney_name}</Text>
                 <PriorIncidentCompany locationId={incident.location_id}/>
                 <PriorIncidentLocation locationId={incident.location_id}/>
-                <Box>
-                    <Text fontSize="l">{incident.date}</Text>
-                </Box>
                 <AddReportModal reportedId={incident.id} reportType={"prior"}/>
                 <ReportsModal reports={incident.reports} />
             </Box>

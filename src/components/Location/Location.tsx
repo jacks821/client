@@ -72,8 +72,8 @@ class Location extends React.Component<LocationProps, LocationState> {
                         <Link to={{
                             pathname: `/priorincident/${pi.id}`,
                         }
-                    } id={pi.id} key={pi.id}>
-                        {moment(pi.date).format('M/D/YYYY')}
+                    } id={pi.id} key={pi.id} style={{color: "#00909E", textDecoration: "none"}}>
+                        {moment(pi.date).add(1, "day").format('M/D/YYYY')}
                         </Link>
                     </Text>
                 )
@@ -81,22 +81,22 @@ class Location extends React.Component<LocationProps, LocationState> {
 
         return (
             <Box textAlign="center">
-                <Text fontSize="2xl">{companyName} Location Number: {location.store_number}</Text>
-                <Text fontSize="l">{location.street_number} {location.street} <br/> {location.city}, {location.state} {location.zip_code}</Text>
+                <Text fontSize="2xl" color="#142850">{companyName} Location Number: {location.store_number}</Text>
+                <Text fontSize="l" color="#142850">{location.street_number} {location.street} <br/> {location.city}, {location.state} {location.zip_code}</Text>
 
                 <Box>
-                    <Text fontSize="xl"> List Incidents </Text>
+                    <Text fontSize="xl" color="#142850"> List of Incidents </Text>
                 </Box>
                 <Box>
                     {priorIncidentItems}
                 </Box>
-                <Box display={"inline"}>
+                <Box>
                     <AddPriorIncidentModal locationId={location.id} />
                 </Box>
-                <Box display={"inline"}>
+                <Box>
                     <AddReportModal reportedId={location.id} reportType={"location"}/>
                 </Box>
-                <Box display="inline">
+                <Box>
                     <ReportsModal reports={location.reports}/>
                 </Box>
                 

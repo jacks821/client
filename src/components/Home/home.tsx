@@ -22,11 +22,11 @@ const Home = () => {
                           pathname: `/listCompanies`,
                         }
                     }>
-                <Button as="button" size="lg" m={2}>
+                <Button as="button" size="lg" m={2} style={{color: "#142850", backgroundColor: "#dae1e7"}}>
                   Start Here
                 </Button>
               </Link>
-              <Link to={{pathname: '/external', state: {url: "https://www.github.com/jacks821/client"}}}>
+              <Link to={{pathname: '/external', state: {url: "https://www.github.com/jacks821/client"}}} style={{color: "#142850"} }>
               <Button
                 as="a"
                 size="lg"

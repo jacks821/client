@@ -24,7 +24,7 @@ export const Footer =() => {
           <Text fontSize="sm">Designed & Developed by <Link to={{
                             pathname: `/about`,
                         }
-                    } color="#00909E">Charles Jackson, Esq.</Link></Text>
+                    } style={{color: "#00909E", textDecoration: "none"}}>Charles Jackson, Esq.</Link></Text>
           <Stack
             shouldWrapChildren
             mt={4}

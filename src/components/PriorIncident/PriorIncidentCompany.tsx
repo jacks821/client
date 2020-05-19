@@ -1,5 +1,5 @@
 import React from "react";
-import {Box} from "@chakra-ui/core"
+import {Box, Text} from "@chakra-ui/core"
 
 interface PriorIncidentCompanyProps {
     locationId: any,
@@ -47,7 +47,7 @@ class PriorIncidentCompany extends React.Component<PriorIncidentCompanyProps, Pr
             return <Box>Loading...</Box>
         } else {
             return (
-                <h2>{company.name}</h2>
+                <Text fontSize="xl">{company.name}</Text>
             )
         }
     }

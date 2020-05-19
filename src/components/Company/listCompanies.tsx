@@ -14,6 +14,19 @@ interface ListCompaniesState {
     companies: any,
 }
 
+function compare(a, b) {
+    const companyA = a.name.toUpperCase();
+    const companyB = b.name.toUpperCase();
+
+    let comparison = 0;
+    if (companyA > companyB) {
+        comparison = 1;
+    } else if (companyA < companyB) {
+        comparison = -1;
+    }
+    return comparison;
+}
+
 class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesState> {
     constructor(props) {
         super(props);
@@ -54,12 +67,14 @@ class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesSta
                         <Container>
                             <Box maxW="xl" mx="auto" textAlign="center">
                                 <Box>
-                                    {companies.map(company => (
-                                        <Text fontSize="lg" key={company.id}>
+                                    {companies.sort(compare).map(company => (
+                                        <Text fontSize="2xl" key={company.id} m={"10px"}>
                                             <Link to={{
                                         pathname: `/company/${company.id}`,
                                         }
-                                    } id={company.id}>{company.name}</Link>
+                                    } id={company.id} style={{color: "#00909E", textDecoration: "none"}}>
+                                        {company.name}
+                                            </Link>
                                         </Text>
                                     ))}
                                     <AddCompanyModal/>

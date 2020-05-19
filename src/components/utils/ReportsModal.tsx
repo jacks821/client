@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     List,
+    ListItem,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -10,6 +11,7 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Text,
     useDisclosure,
 } from "@chakra-ui/core";
 
@@ -18,17 +20,17 @@ export const ReportsModal = (props) => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     let reportList;
     if (props.reports == null) {
-        reportList = <h2>This has not been reported</h2>
+        reportList = <Text>This has not been reported</Text>
     } else {
         reportList = props.reports.map(report => (
-            <li key={report.id}>
+            <ListItem>
                 {report.issue}
-            </li>
+            </ListItem>
         ))
     }
     return (
         <Box>
-            <Button onClick={onOpen} my="3px" display={"inline-block"}>View Reports</Button>
+            <Button onClick={onOpen} my="3px" color="#142850" backgroundColor="#dae1e7">View Reports</Button>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -37,7 +39,7 @@ export const ReportsModal = (props) => {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <List>
+                        <List as="ol">
                             {reportList}
                         </List>
                     </ModalBody>

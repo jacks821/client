@@ -74,9 +74,9 @@ class Company extends React.Component<CompanyProps, CompanyState> {
             }
         return (
                 <Box maxW="xl" mx="auto" textAlign="center">
-                    <Text fontSize="xl">{company.name}</Text>
+                    <Text fontSize="4xl" color="#142850">{company.name}</Text>
                     <Box>
-                        <Text fontSize="l"> Here are {company.name} Locations </Text>
+                        <Text fontSize="2xl" color="#142850">Locations </Text>
                         <Box>
                             {locationItems}
                         </Box>

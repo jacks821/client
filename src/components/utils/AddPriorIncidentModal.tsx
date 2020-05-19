@@ -20,8 +20,10 @@ import {
 } from "@chakra-ui/core";
 import "react-datepicker/dist/react-datepicker.css"
 import DatePicker from "react-datepicker";
+import {handleErrors} from "./errorHandling";
 
 const formatDate = (date) => {
+
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -56,24 +58,24 @@ export const AddPriorIncidentModal = (props) => {
             body: JSON.stringify(req)
         };
         let response = fetch("/company/location/priorincident", requestOptions)
-            .then(response => console.log(response))
-            .then(data => console.log(data));
-        console.log(response);
-        toast({
-            title: "Prior Incident created",
-            description: `We created this ${data.fallType} Prior Incident for you`,
-            status: "success",
-            isClosable: true,
-        })
-        onClose();
+            .then(handleErrors)
+            .then(response => console.log("ok") )
+            .catch(error => console.log(error) );
+            toast({
+                title: "Prior Incident created",
+                description: `We created the ${data.fallType} for you`,
+                status: "success",
+                isClosable: true,
+            })
+              onClose();
     };
     return (
     <Box>
-        <Button onClick={onOpen} my={"5px"} display="inline">Add an Incident</Button>
+        <Button onClick={onOpen} mt={"5px"} mb={"2.5px"}color="#142850" backgroundColor="#dae1e7">Add an Incident</Button>
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>
+                <ModalHeader color="#142850">
                     Add An Incident
                 </ModalHeader>
                 <ModalCloseButton />
@@ -86,14 +88,15 @@ export const AddPriorIncidentModal = (props) => {
                 <FormLabel htmlFor="fallType">Incident Type</FormLabel>
                 <Select 
                     onChange={handleChange}
-                    placeholder="Slip or Trip?" 
+                    placeholder="Type of Fall?" 
                     name="fallType"
                     size="sm"
-                    ref={register({pattern: /[st][lr]ip{1}/})}
+                    ref={register({required: true, pattern: /[ST][lr]ip{1}/})}
                     px={"5px"}
+                    borderColor="#DAE1E7"
                 >
-                    <option value="slip">Slip</option>
-                    <option value="trip">Trip</option>
+                    <option value="Slip">Slip</option>
+                    <option value="Trip">Trip</option>
                 </Select>
                 {errors.fallType && <Box py={"2px"}><Icon name="warning" size="12px" color="red.500" display={"inline"} /><Text display={"inline"}>Choose a Fall Type</Text></Box>}
                 <FormLabel htmlFor="attorneyName">Attorney Name</FormLabel>
@@ -105,19 +108,22 @@ export const AddPriorIncidentModal = (props) => {
                     size="sm"
                     ref={register({required: 'Must enter an Attorney Name'})}
                     px={"5px"}
+                    borderColor="#DAE1E7"
                 />
                 
                 <Button 
                     isLoading={formState.isSubmitting}
                     type="submit"
                     mt={"10px"}
+                    color="#142850"
+                    backgroundColor="#dae1e7"
                 >
                     Add An Incident to This Location
                 </Button>
               </form >
                 </ModalBody>
                 <ModalFooter>
-                    <Button variantColor="blue" mr={3} onClick={onClose}>
+                    <Button color="#142850" backgroundColor="#dae1e7" mr={3} onClick={onClose}>
                         Close
                     </Button>
                 </ModalFooter>

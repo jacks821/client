@@ -1,5 +1,5 @@
 import React from "react";
-import {Box} from "@chakra-ui/core"
+import {Box, Text} from "@chakra-ui/core"
 
 interface PriorIncidentLocationProps {
     locationId: any,
@@ -46,7 +46,7 @@ class PriorIncidentLocation extends React.Component<PriorIncidentLocationProps, 
         } else if (!isLoaded) {
             return <Box>Loading...</Box>
         } else {
-            return <h3>{location.store_number}</h3>;
+            return <Text>Store Number: {location.store_number}<br/>{location.street_number} {location.street} <br/> {location.city}, {location.state} {location.zip_code} <br/> Number of Incidents at Location: {location.prior_incidents.length}</Text>;
         }
     }
 }
