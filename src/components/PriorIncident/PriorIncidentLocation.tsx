@@ -23,7 +23,7 @@ class PriorIncidentLocation extends React.Component<PriorIncidentLocationProps, 
 
     componentDidMount() {
         const locationId = this.props.locationId;
-        fetch(process.env.PUBLIC_ENDPOINT + `/companies/location/${locationId}`)
+        fetch(`https://glacial-meadow-19107.herokuapp.com/companies/location/${locationId}`)
             .then(res => res.json())
             .then(
                 (result) => {

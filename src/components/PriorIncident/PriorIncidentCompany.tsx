@@ -23,7 +23,7 @@ class PriorIncidentCompany extends React.Component<PriorIncidentCompanyProps, Pr
 
       componentDidMount() {
         let id = this.props.locationId;
-        fetch(process.env.PUBLIC_ENDPOINT + `/company/location=${id}`)
+        fetch(`https://glacial-meadow-19107.herokuapp.com/company/location=${id}`)
             .then(res => res.json())
             .then(
                 (result) => {

@@ -44,7 +44,7 @@ export const AddLocationModal = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req)
         };
-        let response = fetch(process.env.PUBLIC_ENDPOINT + "/company/location", requestOptions)
+        let response = fetch("https://glacial-meadow-19107.herokuapp.com/company/location", requestOptions)
             .then(handleErrors)
             .then(response => console.log("ok") )
             .catch(error => console.log(error) );
