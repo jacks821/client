@@ -38,7 +38,7 @@ class ListCompanies extends React.Component<ListCompaniesProps, ListCompaniesSta
       }
 
     componentDidMount() {
-        fetch(process.env.PUBLIC_ENDPOINT + "/companies")
+        fetch("string" + "/companies")
             .then(res => res.json())
             .then(
                 (result) => {
