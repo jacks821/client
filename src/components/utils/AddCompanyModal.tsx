@@ -32,7 +32,7 @@ export const AddCompanyModal = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req)
         };
-        let response = fetch("/company", requestOptions)
+        let response = fetch(process.env.PUBLIC_ENDPOINT + "/company", requestOptions)
         .then(handleErrors)
         .then(response => console.log("ok") )
         .catch(error => console.log(error) );

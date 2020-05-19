@@ -29,7 +29,7 @@ class Company extends React.Component<CompanyProps, CompanyState> {
 
       componentDidMount() {
         let id = this.props.match.params.id;
-        fetch(`/companies/${id}`)
+        fetch(process.env.PUBLIC_ENDPOINT + `/companies/${id}`)
             .then(res => res.json())
             .then(
                 (result) => {

@@ -23,7 +23,7 @@ class PriorIncidentLocation extends React.Component<PriorIncidentLocationProps, 
 
     componentDidMount() {
         const locationId = this.props.locationId;
-        fetch(`/companies/location/${locationId}`)
+        fetch(process.env.PUBLIC_ENDPOINT + `/companies/location/${locationId}`)
             .then(res => res.json())
             .then(
                 (result) => {

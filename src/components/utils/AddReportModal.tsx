@@ -36,7 +36,7 @@ export const AddReportModal = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req)
         };
-        let response = fetch(`/report`, requestOptions)
+        let response = fetch(process.env.PUBLIC_ENDPOINT + `/report`, requestOptions)
                         .then(handleErrors)
                         .then(response => console.log("ok") )
                         .catch(error => console.log(error) );

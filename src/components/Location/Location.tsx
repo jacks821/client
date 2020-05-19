@@ -39,7 +39,7 @@ class Location extends React.Component<LocationProps, LocationState> {
 
       componentDidMount() {
         let id = this.props.match.params.id;
-        fetch(`/companies/location/${id}`)
+        fetch(process.env.PUBLIC_ENDPOINT + `/companies/location/${id}`)
             .then(res => res.json())
             .then(
                 (result) => {

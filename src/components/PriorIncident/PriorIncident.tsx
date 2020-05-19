@@ -32,7 +32,7 @@ export class PriorIncident extends React.Component<PriorIncidentProps, PriorInci
 
       componentDidMount() {
         let id = this.props.match.params.id;
-        fetch(`/companies/location/priorIncident/${id}`)
+        fetch(process.env.PUBLIC_ENDPOINT + `/companies/location/priorIncident/${id}`)
             .then(res => res.json())
             .then(
                 (result) => {

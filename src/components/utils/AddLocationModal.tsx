@@ -44,7 +44,7 @@ export const AddLocationModal = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req)
         };
-        let response = fetch("/company/location", requestOptions)
+        let response = fetch(process.env.PUBLIC_ENDPOINT + "/company/location", requestOptions)
             .then(handleErrors)
             .then(response => console.log("ok") )
             .catch(error => console.log(error) );
