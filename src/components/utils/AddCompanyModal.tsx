@@ -28,7 +28,6 @@ export const AddCompanyModal = () => {
     const onSubmit = (data) => {
         let req = {name: data.name};
         const requestOptions = {
-            mode: "no-cors",
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req)
