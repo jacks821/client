@@ -15,7 +15,7 @@
     "@types/react-dom": "^16.9.6",
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "next-link": "^2.0.0",
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",
